@@ -11,10 +11,10 @@ public class Hud : MonoBehaviour
 
 	void Update()
 	{
-		labelLevel.text = "LEVEL : " + PlayerData.GetInstance().mPlayer1Level;
+		labelLevel.text = "LEVEL : " + PlayerData.GetInstance().mPartyLevel;
 		labelGold.text = "GOLD : " + PlayerData.GetInstance().mPartyGold;
 
-		float xp = (float)PlayerData.GetInstance().mPlayer1CurrentExperience;
+		float xp = (float)PlayerData.GetInstance().mPartyExperience;
 		SliderXP.value = (xp/100.0f);
 	}
 

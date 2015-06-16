@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Actor : MonoBehaviour
 {
@@ -10,9 +11,38 @@ public class Actor : MonoBehaviour
 	
 	//events-----------
 	public event EventNotification Death;	//event to notify on death
+	
+	//status
+	public Slider healthSlider;			//to reference the slider component for Health
+	
+	//on Start
+	void Start ()
+	{
+		postBeginPlay ();	//initialize for subclasses at start
+	}
+	
+	//called per render update
+	void Update ()
+	{
+		Tick (); 		//for updating subclasses
+	}
 
 
 	//basic methods-----------
+	
+	//for subclass initialize
+	virtual public void postBeginPlay ()
+	{
+		//implement in the subclass
+	}
+	
+	/// <summary>
+	/// Tick this instance.
+	/// </summary>
+	virtual public void Tick ()
+	{
+		//implement in the subclass
+	}
 	
 	/// <summary>
 	/// Take damage, calling this method will deal damage to this actor/character
@@ -25,6 +55,9 @@ public class Actor : MonoBehaviour
 		//basic implementation
 		//further implementation in the subclass may have armor and damage reduction features
 		health = Mathf.Clamp (health - inDamage, 0, maxHealth);	//clamping the resulting value to go beyond 0
+		
+		//update the health slider, if presence
+		updateHealthSlider ();
 		
 		//if health is 0, calling the death
 		if (health <= 0) {
@@ -75,6 +108,15 @@ public class Actor : MonoBehaviour
 		//event notification
 		if (Death != null) {
 			Death ();
+		}
+	}
+	
+	//utilities---
+	//health slider
+	protected void updateHealthSlider ()
+	{
+		if (healthSlider != null) {
+			healthSlider.value = health;		//slider amount to that of health
 		}
 	}
 	

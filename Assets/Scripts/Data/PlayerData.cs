@@ -23,22 +23,8 @@ public class PlayerData : MonoBehaviour
 	
 	//public string mCharacterName; // Is it better to use a fixed array of characters ???
 	[Range(0, 10000)]public uint mPartyGold;
-	
-	[Range(0, 100)]public uint mPlayer1CurrentHealth;
-	[Range(0, 100)]public uint mPlayer1CurrentMana;
-	[Range(0, 100)]public uint mPlayer1CurrentExperience;
-	[Range(0, 100)]public uint mPlayer1Level;
-	
-	[Range(0, 100)]public uint mPlayer2CurrentHealth;
-	[Range(0, 100)]public uint mPlayer2CurrentMana;
-	[Range(0, 100)]public uint mPlayer2CurrentExperience;
-	[Range(0, 100)]public uint mPlayer2Level;
-	
-	[Range(0, 100)]public uint mPlayer3CurrentHealth;
-	[Range(0, 100)]public uint mPlayer3CurrentMana;
-	[Range(0, 100)]public uint mPlayer3CurrentExperience;
-	[Range(0, 100)]public uint mPlayer3Level;
-
+	[Range(0, 100)]public uint mPartyExperience;
+	[Range(0, 100)]public uint mPartyLevel;
 
 	void Awake()
 	{
@@ -77,21 +63,8 @@ public class PlayerData : MonoBehaviour
 		SaveData data = new SaveData();
 
 		data.mPartyGold = mPartyGold;
-
-		data.mPlayer1CurrentHealth = mPlayer1CurrentHealth;
-		data.mPlayer1CurrentMana = mPlayer1CurrentMana;
-		data.mPlayer1CurrentExperience = mPlayer1CurrentExperience;
-		data.mPlayer1Level = mPlayer1Level;
-		
-		data.mPlayer2CurrentHealth = mPlayer2CurrentHealth;
-		data.mPlayer2CurrentMana = mPlayer2CurrentMana;
-		data.mPlayer2CurrentExperience = mPlayer2CurrentExperience;
-		data.mPlayer2Level = mPlayer2Level;
-		
-		data.mPlayer3CurrentHealth = mPlayer3CurrentHealth;
-		data.mPlayer3CurrentMana = mPlayer3CurrentMana;
-		data.mPlayer3CurrentExperience = mPlayer3CurrentExperience;
-		data.mPlayer3Level = mPlayer3Level;
+		data.mPartyExperience = mPartyExperience;
+		data.mPartyLevel = mPartyLevel;
 
 		bf.Serialize(file, data); // Can also serialize to string and send over the web or write to playerprefs
 		file.Close();
@@ -109,21 +82,8 @@ public class PlayerData : MonoBehaviour
 			file.Close();
 
 			mPartyGold = data.mPartyGold;
-			
-			mPlayer1CurrentHealth = data.mPlayer1CurrentHealth;
-			mPlayer1CurrentMana = data.mPlayer1CurrentMana;
-			mPlayer1CurrentExperience = data.mPlayer1CurrentExperience;
-			mPlayer1Level = data.mPlayer1Level;
-			
-			mPlayer2CurrentHealth = data.mPlayer2CurrentHealth;
-			mPlayer2CurrentMana = data.mPlayer2CurrentMana;
-			mPlayer2CurrentExperience = data.mPlayer2CurrentExperience;
-			mPlayer2Level = data.mPlayer2Level;
-			
-			mPlayer3CurrentHealth = data.mPlayer3CurrentHealth;
-			mPlayer3CurrentMana = data.mPlayer3CurrentMana;
-			mPlayer3CurrentExperience = data.mPlayer3CurrentExperience;
-			mPlayer3Level = data.mPlayer3Level;
+			mPartyExperience = data.mPartyExperience;
+			mPartyLevel = data.mPartyLevel;
 
 			Debug.Log ("Load successful");
 		}
@@ -139,19 +99,6 @@ public class PlayerData : MonoBehaviour
 class SaveData
 {
 	public uint mPartyGold;
-
-	public uint mPlayer1CurrentHealth;
-	public uint mPlayer1CurrentMana;
-	public uint mPlayer1CurrentExperience;
-	public uint mPlayer1Level;
-
-	public uint mPlayer2CurrentHealth;
-	public uint mPlayer2CurrentMana;
-	public uint mPlayer2CurrentExperience;
-	public uint mPlayer2Level;
-
-	public uint mPlayer3CurrentHealth;
-	public uint mPlayer3CurrentMana;
-	public uint mPlayer3CurrentExperience;
-	public uint mPlayer3Level;
+	public uint mPartyExperience;
+	public uint mPartyLevel;
 }
