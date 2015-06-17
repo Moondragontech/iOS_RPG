@@ -3,8 +3,6 @@ using System.Collections;
 
 public class FPlayer : Character
 {
-
-	
 	/// <summary>
 	/// when this character is activated. 
 	/// </summary>

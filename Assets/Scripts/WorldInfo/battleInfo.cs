@@ -71,7 +71,7 @@ public class battleInfo : MonoBehaviour
 			if (Players.Count <= 0) 	//break it if there is no enemies
 				break;
 			
-			enemy.GetComponent<Character> ().fight (Players [Random.Range (0, Enemies.Count)], out yieldTweener, 1.0f);	//fight sequence
+			enemy.GetComponent<Character> ().fight (Players [Random.Range (0, Players.Count)], out yieldTweener, 1.0f);	//fight sequence
 			
 			if (yieldTweener != null) {
 				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish

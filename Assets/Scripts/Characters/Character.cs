@@ -18,6 +18,7 @@ public class Character : Actor
 	//---fight status---
 	public Slider manaSlider;			//to reference the slider component for Mana
 	
+	
 	//initialize
 	public override void postBeginPlay ()
 	{
