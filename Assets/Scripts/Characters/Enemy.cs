@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Enemy : Character
 {
-	
+	[Tooltip("base gold given to player on death")]
+	public int
+		baseGoldDrop = 50;	//base gold given to player on death
 	/// <summary>
 	/// when this character is activated. 
 	/// </summary>
@@ -12,6 +14,25 @@ public class Enemy : Character
 		base.onActivated (currentTarget, bActive);
 	
 		battleInfo.info.enemyFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (this.transform);
-		battleInfo.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
+		
+		if (currentTarget != null)	//if only valid
+			battleInfo.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
+	}
+	
+	/// <summary>
+	/// overriding on death. 
+	/// </summary>
+	public override void onDeath ()
+	{
+		base.onDeath ();
+		
+		//giving exp to player when enemy dies
+		dataAccess.info.increaseExpOnEnemyKill (characterLevel);
+		
+		//giving gold when enemies die
+		dataAccess.info.updateGold (characterLevel * baseGoldDrop);
+		
+		//destroying the gameobject
+		Destroy (this.gameObject);
 	}
 }

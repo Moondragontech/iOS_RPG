@@ -45,7 +45,7 @@ public class Actor : MonoBehaviour
 	}
 	
 	/// <summary>
-	/// Take damage, calling this method will deal damage to this actor/character
+	/// Take damage, this method will deal damage to this actor/character
 	/// </summary>
 	/// <param name="inDamage">In damage.</param>
 	/// <param name="damageDealer">Damage dealer.</param>
