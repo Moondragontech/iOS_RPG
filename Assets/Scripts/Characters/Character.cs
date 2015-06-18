@@ -13,6 +13,7 @@ public class Character : Actor
 	public float damage = 10;			//basic damage this character can give
 	public float mana = 100;			//current mana of the player
 	public float maxMana = 100;			//max mana a character can have
+	public int characterLevel = 1;				//currrent level of the character
 	//------
 	
 	//---fight status---
@@ -95,6 +96,7 @@ public class Character : Actor
 	/// <param name="timeAfter">Time after.</param>
 	Tweener backToIdle (Vector3 originalPos, float moveTime, float timeAfter)
 	{
+		//onActivated (null, false);	//deactivating the infos
 		//tween for moving to the original position
 		return transform.DOMove (originalPos, moveTime).SetDelay (timeAfter)
 		.OnComplete (() => onActivated (null, false));	//deactivating the infos

@@ -46,38 +46,25 @@ public class battleInfo : MonoBehaviour
 	//fight Sequence
 	IEnumerator toFight ()
 	{
-		//first Players will attack
-		foreach (var player in Players) {
-			
-			Tweener yieldTweener; //using for yielding untill a single fighting is done.
-			
-			if (Enemies.Count <= 0) 	//break it if there is no enemies
-				break;
-				
-			player.GetComponent<Character> ().fight (Enemies [Random.Range (0, Enemies.Count)], out yieldTweener, 1.0f);	//fight sequence
-			
-			
-			if (yieldTweener != null) {
-				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish
+		
+		int random = Random.Range (0, 2);		//local var to store a random
+		
+		//randomly choose whos team will attack first
+		switch (random) {
+		case 0:
+			{
+				yield return StartCoroutine (allyAttack ());
+				yield return StartCoroutine (enemyAttack ());
 			}
-			yield return null;
+			break;
+		case 1:
+			{
+				yield return StartCoroutine (enemyAttack ());
+				yield return StartCoroutine (allyAttack ());
+			}
+			break;
 		}
 		
-		//enemies fight second
-		foreach (var enemy in Enemies) {
-			
-			Tweener yieldTweener; //using for yielding untill a single fighting is done.
-			
-			if (Players.Count <= 0) 	//break it if there is no enemies
-				break;
-			
-			enemy.GetComponent<Character> ().fight (Players [Random.Range (0, Players.Count)], out yieldTweener, 1.0f);	//fight sequence
-			
-			if (yieldTweener != null) {
-				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish
-			}
-			yield return null;
-		}
 		
 		yield return null;
 	}
@@ -95,7 +82,58 @@ public class battleInfo : MonoBehaviour
 		Enemies.findAndRemove (inActor);
 		
 		//destroying the characters that are dead, we can use particle/extra effects later.
-		Destroy (inActor);
+		//Destroy (inActor);		//obsolute - moved to per character subclass
 		
 	}
+	
+	//--fight sequence
+	
+	/// <summary>
+	/// Allies attack.
+	/// </summary>
+	/// <returns>The attack.</returns>
+	IEnumerator allyAttack ()
+	{
+		//first Players will attack
+		foreach (var player in Players) {
+			
+			Tweener yieldTweener; //using for yielding untill a single fighting is done.
+			
+			if (Enemies.Count <= 0) 	//break it if there is no enemies
+				break;
+			
+			player.GetComponent<Character> ().fight (Enemies [Random.Range (0, Enemies.Count)], out yieldTweener, 1.0f);	//fight sequence
+			
+			
+			if (yieldTweener != null) {
+				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish*
+			}
+			yield return null;
+		}
+	}
+	
+	/// <summary>
+	/// Enemies attack.
+	/// </summary>
+	/// <returns>The attack.</returns>
+	IEnumerator enemyAttack ()
+	{
+		//enemies fight second
+		foreach (var enemy in Enemies) {
+			
+			Tweener yieldTweener; //using for yielding untill a single fighting is done.
+			
+			if (Players.Count <= 0) 	//break it if there is no enemies
+				break;
+			
+			enemy.GetComponent<Character> ().fight (Players [Random.Range (0, Players.Count)], out yieldTweener, 1.0f);	//fight sequence
+			
+			if (yieldTweener != null) {
+				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish
+			}
+			yield return null;
+		}
+	}
+	
+	
 }
