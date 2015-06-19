@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -99,7 +99,7 @@ public class Actor : MonoBehaviour
 	protected internal void eventDeath ()
 	{
 		//sends a message to the GameInfo/battleInfo with its associated gameobject
-		battleInfo.info.SendMessage ("onActorDeath", gameObject);
+		battleController.info.SendMessage ("onActorDeath", gameObject);	//later this call will made to the current controller, after we create a GameInfo Class
 	
 		//sends message to this entire hierarchy of gameobject
 		SendMessage ("Death", SendMessageOptions.DontRequireReceiver);	//broadcast message

@@ -14,10 +14,10 @@ public class FPlayer : Character
 	{
 		base.onActivated (currentTarget, bActive);
 		
-		battleInfo.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (this.transform);
+		battleController.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (this.transform);
 		
 		if (currentTarget != null)		//only if valid
-			battleInfo.info.enemyFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
+			battleController.info.enemyFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
 	}
 	
 	/// <summary>
@@ -27,8 +27,8 @@ public class FPlayer : Character
 	{
 		base.onDeath ();
 		
-		//giving gold when enemies die
-		dataAccess.info.updateGold (-characterLevel * baseGoldPanaltyOnDeath);
+		//decrease gold when ally dies
+		battleController.info.decreaseGoldOnPlayerPartyDeath (characterLevel);
 		
 		//destroying the gameobject
 		Destroy (this.gameObject);

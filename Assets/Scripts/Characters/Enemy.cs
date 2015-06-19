@@ -13,10 +13,10 @@ public class Enemy : Character
 	{
 		base.onActivated (currentTarget, bActive);
 	
-		battleInfo.info.enemyFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (this.transform);
+		battleController.info.enemyFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (this.transform);
 		
 		if (currentTarget != null)	//if only valid
-			battleInfo.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
+			battleController.info.playerFlag.GetComponent<ActiveCharacterInfo> ().setActivateArrow (currentTarget.transform);
 	}
 	
 	/// <summary>
@@ -27,10 +27,10 @@ public class Enemy : Character
 		base.onDeath ();
 		
 		//giving exp to player when enemy dies
-		dataAccess.info.increaseExpOnEnemyKill (characterLevel);
+		battleController.info.increaseExpOnEnemyKill (characterLevel);
 		
 		//giving gold when enemies die
-		dataAccess.info.updateGold (characterLevel * baseGoldDrop);
+		battleController.info.increaseGoldOnEnemyKill (characterLevel * baseGoldDrop);
 		
 		//destroying the gameobject
 		Destroy (this.gameObject);

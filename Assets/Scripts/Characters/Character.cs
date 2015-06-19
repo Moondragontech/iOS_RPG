@@ -110,8 +110,8 @@ public class Character : Actor
 		//we may write some common feature here later
 		
 		//(test)-will make it more efficient later
-		battleInfo.info.enemyFlag.SetActive (bActive);
-		battleInfo.info.playerFlag.SetActive (bActive);
+		battleController.info.enemyFlag.SetActive (bActive);
+		battleController.info.playerFlag.SetActive (bActive);
 		
 		//implement in the subclass
 	}
