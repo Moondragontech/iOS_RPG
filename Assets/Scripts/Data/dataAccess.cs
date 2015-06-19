@@ -3,12 +3,9 @@ using System.Collections;
 
 public class dataAccess : MonoBehaviour
 {
-
-	public static dataAccess info;	//self reference to singleton
 	
-	public int baseXPGranted = 20;	//base xp grated to the winner
-	
-	private PlayerData mPlayerData;
+	public static dataAccess info;	//self reference to singleton	
+	private PlayerData mPlayerData;	//reference to the player data
 	
 	//init before start
 	void Awake ()
@@ -18,7 +15,7 @@ public class dataAccess : MonoBehaviour
 			info = this;
 		}
 	}
-
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -30,11 +27,10 @@ public class dataAccess : MonoBehaviour
 	/// Updates the gold.
 	/// </summary>
 	/// <param name="Amount">Amount.</param>
-	public void updateGold (int Amount)
+	public void updateGold (int Amount) // this is int to allow gold deduction
 	{
 		if (mPlayerData != null) {
-			mPlayerData.mPartyGold = (uint)Mathf.Clamp (((int)mPlayerData.mPartyGold + Amount), 0, 10000);	//->later 10000 should be replaced by a max variable
-			Debug.Log ("gold: " + (int)mPlayerData.mPartyGold);
+			mPlayerData.partyGold += (uint)Amount;
 		}
 	}
 	
@@ -45,18 +41,7 @@ public class dataAccess : MonoBehaviour
 	public void updateXp (uint Amount)
 	{
 		if (mPlayerData != null) {
-			mPlayerData.mPartyExperience += (uint)Amount;
-		}
-	}
-	
-	/// <summary>
-	/// Increases the exp on enemy kill.
-	/// </summary>
-	/// <param name="killedCharacterLevel">Killed character level.</param>
-	public void increaseExpOnEnemyKill (int killedCharacterLevel)
-	{
-		if (mPlayerData != null) {
-			mPlayerData.mPartyExperience += (uint)(killedCharacterLevel * baseXPGranted);	//with respect to enemy killed
+			mPlayerData.partyExperience += Amount;
 		}
 		
 	}
@@ -68,7 +53,7 @@ public class dataAccess : MonoBehaviour
 	public void updateLevel (uint Amount)
 	{
 		if (mPlayerData != null) {
-			mPlayerData.mPartyLevel += (uint)Amount;
+			mPlayerData.partyLevel += Amount;
 		}
 	}
 }
