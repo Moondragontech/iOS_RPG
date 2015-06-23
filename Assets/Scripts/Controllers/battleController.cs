@@ -79,6 +79,21 @@ public class battleController : MonoBehaviour
 	}
 	
 	/// <summary>
+	/// Fights  multiple target.
+	/// </summary>
+	/// <param name="Attacker">Attacker.</param>
+	public void fightMultiple ()
+	{
+		if (Players.Count <= 0)	//early exit if there is no player available
+			return;
+			
+		
+		Character Attacker = Players [Random.Range (0, Players.Count)].GetComponent<Character> ();	//getting a random element
+		
+		Attacker.StartCoroutine (Attacker.fightMultiple (Enemies, 1.0f));	//selected attacker will attack all enimies
+	}
+	
+	/// <summary>
 	/// called from Actor class, when a associated character died
 	/// </summary>
 	/// <param name="inActor">In actor.</param>

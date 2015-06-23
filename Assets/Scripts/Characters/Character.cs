@@ -2,6 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 /// <summary>
 /// Main Character class, holding basic variable and methods of any character
@@ -49,6 +50,8 @@ public class Character : Actor
 		gotoAndAttack (target, fightDuration, out fightEndTweener);		//basic fight action
 	}
 	
+	
+	
 	/// <summary>
 	/// Shake this instance
 	/// </summary>
@@ -89,6 +92,8 @@ public class Character : Actor
 	
 	}
 	
+	
+	
 	/// <summary>
 	/// Backs to idle pos.
 	/// </summary>
@@ -125,10 +130,46 @@ public class Character : Actor
 	/// <param name="amount">Amount.</param>
 	public void updateMana (float amount)
 	{
-		mana = Mathf.Clamp (mana - amount, 0, maxMana);	//clamping the resulting value to go beyond 0
+		mana = Mathf.Clamp (mana + amount, 0, maxMana);	//clamping the resulting value to go beyond 0
 		
 		//updating the slider
 		updateManaSlider ();
+	}
+	
+	//skills-------
+	
+	/// <summary>
+	/// Fights multiple target -> basic use is select the character and press multiple attack button it will attack multiple targets---
+	/// </summary>
+	/// <param name="targets">Targets.</param>
+	/// <param name="fightEndTweener">Fight end tweener.</param>
+	/// <param name="eachFightDuration">Each fight duration.</param>
+	virtual public IEnumerator fightMultiple (List<GameObject> targets, float eachFightDuration = 0.5f, float requiredMana = 25)
+	{
+		
+		if (DOTween.TotalPlayingTweens () > 0 || !checkForMana (requiredMana) || targets.Count <= 0) {	//if any tween is playing, dont play it again and there are enough mana or there are targets available
+			yield return null;
+		}
+		
+		updateMana (-25f);		//updating the mana cost
+		
+		foreach (var target in targets.ToArray()) {	//for each target
+			
+			Tweener yieldTweener;
+			
+			if (targets.Count <= 0) 	//break it if there is no enemies, for safety
+				break;
+			
+			
+			fight (target, out yieldTweener, eachFightDuration); //fighting each target
+			
+			
+			if (yieldTweener != null) {
+				yield return yieldTweener.WaitForCompletion ();	//watiing for the fight to finish*
+			}
+			yield return null;
+		}
+		
 	}
 	
 	// utilities
@@ -139,6 +180,16 @@ public class Character : Actor
 		if (manaSlider != null) {
 			manaSlider.value = mana;	//slider amount to that of mana
 		}
+	}
+	
+	/// <summary>
+	/// Checks for mana. True, if available
+	/// </summary>
+	/// <returns><c>true</c>, if for mana was checked, <c>false</c> otherwise.</returns>
+	/// <param name="requiredMana">Required mana.</param>
+	protected bool checkForMana (float requiredMana)
+	{
+		return (mana >= requiredMana) ? true : false;
 	}
 	
 	
